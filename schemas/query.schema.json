@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unboundcognition.org/schemas/query.schema.json",
+  "title": "RetrievalContract",
+  "description": "Schemas for hybrid retrieval request and response payloads",
+  "definitions": {
+    "QueryRequest": {
+      "type": "object",
+      "required": ["operation", "query"],
+      "properties": {
+        "operation": {
+          "type": "string",
+          "enum": ["search", "recall"]
+        },
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Natural language or technical search query"
+        },
+        "top_k": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 5
+        },
+        "layer": {
+          "type": "string",
+          "enum": ["working", "episodic", "semantic", "procedural", "codebase", "all"],
+          "default": "all"
+        },
+        "threshold": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Minimum confidence threshold; scores below this are pruned"
+        },
+        "intent": {
+          "type": "string",
+          "enum": ["auto", "how", "who", "what", "when", "why", "general"],
+          "default": "auto"
+        },
+        "time_filter": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string" },
+            "end": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "QueryResult": {
+      "type": "object",
+      "required": ["id", "content", "layer", "score"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "content": {
+          "type": "string"
+        },
+        "layer": {
+          "type": "string",
+          "enum": ["working", "episodic", "semantic", "procedural", "codebase"]
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "sources": {
+          "type": "object",
+          "description": "Channel rankings or contributor scores",
+          "properties": {
+            "dense": { "type": "number" },
+            "bm25": { "type": "number" },
+            "graph": { "type": "number" },
+            "hopfield": { "type": "number" },
+            "exact": { "type": "number" }
+          },
+          "additionalProperties": true
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "QueryResponse": {
+      "type": "object",
+      "required": ["status", "results"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["ok", "error"]
+        },
+        "results": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/QueryResult" }
+        },
+        "error": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

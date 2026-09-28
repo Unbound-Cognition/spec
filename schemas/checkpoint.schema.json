@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unboundcognition.org/schemas/checkpoint.schema.json",
+  "title": "SessionCheckpoint",
+  "type": "object",
+  "required": ["project_id", "task", "summary", "decisions", "next_steps", "timestamp"],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Identifier or root path of the project workspace"
+    },
+    "task": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Primary goal or active task being worked on"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "High-density summary of state and current progress"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["in_progress", "completed", "blocked", "paused"],
+      "default": "in_progress"
+    },
+    "decisions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Key architectural or implementation decisions made in this session"
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Ordered immediate actions required to continue"
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "key_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files modified or central to the task context"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Identifier of the agent or harness that produced this checkpoint"
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Unix timestamp in milliseconds"
+    }
+  },
+  "additionalProperties": true
+}

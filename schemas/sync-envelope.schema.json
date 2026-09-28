@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unboundcognition.org/schemas/sync-envelope.schema.json",
+  "title": "SyncEnvelope",
+  "type": "object",
+  "required": [
+    "event_id",
+    "memory_id",
+    "device_id",
+    "sequence",
+    "timestamp",
+    "operation",
+    "crypto"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this replication event"
+    },
+    "memory_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Identifier of the target memory record"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Canonical identifier of the originating device"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonically increasing Lamport sequence number"
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Unix timestamp in milliseconds"
+    },
+    "operation": {
+      "type": "string",
+      "enum": ["upsert", "delete", "tombstone"],
+      "description": "Replication action to perform"
+    },
+    "crypto": {
+      "type": "object",
+      "required": ["algorithm", "key_id", "nonce", "ciphertext", "tag"],
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": ["ChaCha20-Poly1305", "AES-256-GCM"]
+        },
+        "key_id": {
+          "type": "string",
+          "description": "Identifier of the encryption key used"
+        },
+        "nonce": {
+          "type": "string",
+          "description": "Initialization vector or nonce (base64 or hex)"
+        },
+        "ciphertext": {
+          "type": "string",
+          "description": "Encrypted payload containing memory content, metadata, and dense vectors"
+        },
+        "tag": {
+          "type": "string",
+          "description": "Authentication tag verifying payload integrity"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

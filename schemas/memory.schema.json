@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unboundcognition.org/schemas/memory.schema.json",
+  "title": "CognitiveMemoryRecord",
+  "type": "object",
+  "required": ["id", "content", "layer", "memory_type", "status", "importance", "temporal"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the memory record"
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Substantive markdown content payload"
+    },
+    "layer": {
+      "type": "string",
+      "enum": ["working", "episodic", "semantic", "procedural", "codebase"]
+    },
+    "memory_type": {
+      "type": "string",
+      "enum": ["fact", "procedure", "narrative", "negative"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "challenged", "superseded", "forgotten"]
+    },
+    "importance": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "trust": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 1.0
+    },
+    "surprise": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "temporal": {
+      "type": "object",
+      "required": ["created_at", "updated_at"],
+      "properties": {
+        "created_at": { "type": "integer" },
+        "updated_at": { "type": "integer" },
+        "fact_date": { "type": ["string", "null"] },
+        "last_accessed_at": { "type": ["integer", "null"] },
+        "access_count": { "type": "integer", "minimum": 0, "default": 0 },
+        "previous_memory_id": { "type": ["string", "null"] },
+        "causal_parent_id": { "type": ["string", "null"] }
+      }
+    }
+  },
+  "additionalProperties": true
+}
