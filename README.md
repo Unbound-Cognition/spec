@@ -18,6 +18,10 @@ this specification defines a standard data model, wire protocol, and sync archit
 - **model-agnostic handoffs**: standardized checkpointing so sessions can resume across different models (e.g. starting in Claude, resuming in local Qwen/Llama) without losing context.
 - **zero-knowledge sync**: protocol for synchronizing encrypted memory states across multiple personal devices without exposing plaintext or raw vector embeddings to intermediate sync relays.
 
+## technical white paper
+
+- **[sovereign cognitive substrate: a technical white paper](whitepaper.md)** — full architecture, retrieval mathematics, failure modes, and zero-knowledge replication protocol.
+
 ## specification structure
 
 - **[01. core architecture](spec/01-core-architecture.md)** — memory layers, cognitive lifecycle, and threat model.
