@@ -101,3 +101,18 @@ for MCP-compliant environments, the engine exposes the following canonical tools
 - **`remember_error`**: stores error signatures and verified fixes.
 - **`remember_negative`**: stores explicit assertions of non-existence to block hallucinations.
 - **`drift_check`**: runs filesystem / reality verification against stored paths.
+
+---
+
+## 4. HTTP daemon endpoints
+
+for local web dashboards, status tools, and peer synchronization:
+
+- **`GET /api/health`**: returns storage statistics, entity counts, database size, and active models.
+- **`GET /api/search?q={query}&top_k={top_k}`**: executes 5-channel hybrid recall.
+- **`GET /api/sync/status`**: returns local device ID, Lamport sequence counter, peer list, and encryption key readiness.
+- **`GET /api/sync/events?since={seq}&limit={limit}`**: exports encrypted ChaCha20-Poly1305 sync envelopes recorded since sequence `seq`.
+- **`POST /api/sync/events`**: ingests encrypted sync envelopes from a peer or relay, verifying Poly1305 MACs and applying them to local state.
+- **`POST /api/sync/trigger`**: initiates an immediate replication round (pull then push) across all configured peer endpoints.
+- **`POST /api/sync/peers`**: registers or deregisters a peer endpoint URL (`{"peer": "http://node:8420", "action": "add"|"remove"}`).
+
