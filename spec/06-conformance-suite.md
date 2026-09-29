@@ -45,8 +45,22 @@ conformance is evaluated across three tiers:
 
 ## 3. automated validation
 
-conformance can be validated locally using the compliance validator:
+conformance is validated across two test suites:
+
+### 3.1 static schema & fixture validation
+verifies that all JSON schemas conform to Draft 2020-12 and validates sample payloads without external dependencies:
 
 ```bash
 python scripts/validate.py
+```
+
+### 3.2 live engine conformance runner
+executes the normative test suite against any running engine implementing the wire protocol (Levels 1, 2, and 3):
+
+```bash
+# test a local engine daemon
+python scripts/test_engine.py --url http://127.0.0.1:8420
+
+# test an engine with bearer auth enabled
+python scripts/test_engine.py --url http://my-vps:8420 --token <my-token>
 ```
