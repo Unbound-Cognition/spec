@@ -1,3 +1,11 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Unbound-Cognition/spec/main/assets/horizontal-lockup-white.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Unbound-Cognition/spec/main/assets/horizontal-lockup-black.svg">
+    <img alt="unbound cognition" src="https://raw.githubusercontent.com/Unbound-Cognition/spec/main/assets/horizontal-lockup-white.svg" width="320">
+  </picture>
+</p>
+
 # open cognitive memory specification
 
 the open standard for sovereign, local-first agent memory and continuity.
