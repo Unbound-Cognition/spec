@@ -103,6 +103,40 @@ def validate_sample_sync_envelope(sync_schema: dict) -> None:
     assert sample["crypto"]["algorithm"] in sync_schema["properties"]["crypto"]["properties"]["algorithm"]["enum"]
 
 
+def validate_sample_query(query_schema: dict) -> None:
+    request_schema = query_schema["definitions"]["QueryRequest"]
+    response_schema = query_schema["definitions"]["QueryResponse"]
+
+    sample_request = {
+        "operation": "recall",
+        "query": "why did we switch from rclone to nfs?",
+        "top_k": 5,
+        "layer": "procedural",
+        "threshold": 0.35,
+        "intent": "why",
+    }
+    for req in request_schema["required"]:
+        assert req in sample_request, f"Sample query request missing: {req}"
+    assert sample_request["operation"] in request_schema["properties"]["operation"]["enum"]
+    assert sample_request["layer"] in request_schema["properties"]["layer"]["enum"]
+    assert sample_request["intent"] in request_schema["properties"]["intent"]["enum"]
+
+    sample_response = {
+        "status": "ok",
+        "results": [
+            {
+                "id": str(uuid.uuid4()),
+                "content": "rclone mounts lacked non-blocking I/O support required for simultaneous read locks.",
+                "layer": "procedural",
+                "score": 0.88,
+                "sources": {"dense": 0.82, "bm25": 0.91, "graph": 0.45},
+            }
+        ],
+    }
+    for req in response_schema["required"]:
+        assert req in sample_response, f"Sample query response missing: {req}"
+
+
 def main() -> int:
     print("Validating Open Cognitive Memory schemas...")
     schema_files = list(SCHEMAS_DIR.glob("*.json"))
@@ -129,6 +163,9 @@ def main() -> int:
 
         validate_sample_sync_envelope(schemas["sync-envelope.schema.json"])
         print("  [PASS] sync-envelope.schema.json fixture valid")
+
+        validate_sample_query(schemas["query.schema.json"])
+        print("  [PASS] query.schema.json fixture valid")
     except Exception as e:
         print(f"  [FAIL] fixture validation error: {e}", file=sys.stderr)
         return 1
