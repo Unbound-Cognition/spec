@@ -29,6 +29,7 @@ this specification defines a standard data model, wire protocol, and sync archit
 - **[03. retrieval contract](spec/03-retrieval-contract.md)** — multi-channel retrieval, intent weighting, and reranking expectations.
 - **[04. wire protocol](spec/04-wire-protocol.md)** — JSONL native API, MCP tool definitions, and runtime hooks.
 - **[05. zero-knowledge sync](spec/05-zero-knowledge-sync.md)** — encrypted delta logs, CRDT conflict resolution, and peer discovery.
+- **[06. conformance suite](spec/06-conformance-suite.md)** — normative test cases and automated validation.
 - **[schemas/](schemas/)** — formal JSON Schemas for validation.
 
 ## status
